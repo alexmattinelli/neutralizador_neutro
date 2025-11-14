@@ -189,8 +189,8 @@ function init(){
 // message listener for popup
 if(chrome && chrome.runtime && chrome.runtime.onMessage){
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-    if(msg && msg.type==='TOGGLE'){ isActive = !!msg.active; if(isActive){ walkAndProcess(document.body); startObserver(); } else stopObserver(); sendResponse({ok:true}); }
-    else if(msg && msg.type==='PING'){ sendResponse({status: window.__neutralizador_status || {stage:'no-status'}}); }
+    if(msg && msg.type==='TOGGLE'){ isActive = !!msg.active; if(isActive){ walkAndProcess(document.body); startObserver(); } else stopObserver(); sendResponse({ok:true}); return true; }
+    else if(msg && msg.type==='PING'){ sendResponse({status: window.__neutralizador_status || {stage:'no-status'}}); return true; }
     else if(msg && msg.type==='GET_SUGGESTIONS'){ chrome.storage.local.get(['suggestions'], r=> sendResponse({suggestions: r.suggestions || []})); return true; }
     else if(msg && msg.type==='APPLY_SUGGESTION'){ // apply one suggestion globally (dangerous) - add mapping and re-run
       const s = msg.suggestion;

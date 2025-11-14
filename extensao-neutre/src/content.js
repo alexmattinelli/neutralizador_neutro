@@ -74,8 +74,8 @@ function processTextNode(node){
   if(!node || node.nodeType !== Node.TEXT_NODE) return;
   if(!node.textContent || !node.textContent.trim()) return;
   if(isEditableNode(node)) return;
-  // quick filter: only run if appears to contain targeted tokens
-  if(!/\b(ele|ela|dele|dela|eles|elas|aluno|aluna|amigo|amiga|aquele|aquela|todos|todas)\b/i.test(node.textContent)) return;
+  // quick filter: only run if appears to contain targeted tokens (including articles)
+  if(!/\b(ele|ela|dele|dela|eles|elas|aluno|aluna|amigo|amiga|aquele|aquela|todos|todas|o|a|os|as)\b/i.test(node.textContent)) return;
   const original = node.textContent;
   const modified = applyMappingsToText(original);
   if(modified !== original){
@@ -189,9 +189,23 @@ function init(){
 // message listener for popup
 if(chrome && chrome.runtime && chrome.runtime.onMessage){
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-    if(msg && msg.type==='TOGGLE'){ isActive = !!msg.active; if(isActive){ walkAndProcess(document.body); startObserver(); } else stopObserver(); sendResponse({ok:true}); return true; }
-    else if(msg && msg.type==='PING'){ sendResponse({status: window.__neutralizador_status || {stage:'no-status'}}); return true; }
-    else if(msg && msg.type==='GET_SUGGESTIONS'){ chrome.storage.local.get(['suggestions'], r=> sendResponse({suggestions: r.suggestions || []})); return true; }
+    if(msg && msg.type==='TOGGLE'){ 
+      isActive = !!msg.active; 
+      if(isActive){ walkAndProcess(document.body); startObserver(); } 
+      else stopObserver(); 
+      sendResponse({ok:true, active: isActive}); 
+      return true; 
+    }
+    else if(msg && msg.type==='PING'){ 
+      sendResponse({status: window.__neutralizador_status || {stage:'no-status'}}); 
+      return true; 
+    }
+    else if(msg && msg.type==='GET_SUGGESTIONS'){ 
+      chrome.storage.local.get(['suggestions'], r=> {
+        sendResponse({suggestions: r.suggestions || []});
+      }); 
+      return true; 
+    }
     else if(msg && msg.type==='APPLY_SUGGESTION'){ // apply one suggestion globally (dangerous) - add mapping and re-run
       const s = msg.suggestion;
       if(s && s.from && s.to){
@@ -210,6 +224,7 @@ if(chrome && chrome.runtime && chrome.runtime.onMessage){
       } else sendResponse({ok:false, error:'invalid'});
       return true;
     }
+    return false;
   });
 }
 

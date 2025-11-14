@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Neutralizador PT-BR (Ophelia Cassiano)",
+  "version": "3.0.0",
+  "description": "Neutralizador de linguagem neutra PT-BR baseado no Guia de Ophelia Cassiano — com diagnóstico e sugestões.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.wikipedia.org/*",
+    "https://*.wikimedia.org/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Neutralizador PT-BR"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

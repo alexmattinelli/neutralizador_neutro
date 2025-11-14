@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <style>
+    body{font-family:Arial;width:360px;padding:10px}
+    button{padding:8px;margin-top:6px}
+    pre{background:#f7f7f7;padding:6px;border-radius:6px;max-height:160px;overflow:auto}
+    .small{font-size:0.9em;color:#333}
+  </style>
+</head>
+<body>
+  <h3>Neutralizador PT-BR</h3>
+  <div>Status: <span id="status">...</span></div>
+  <div style="margin-top:8px">
+    <button id="toggle">Ativar/Desativar</button>
+    <button id="check">Ver status (aba atual)</button>
+    <button id="suggest">Gerar sugestões</button>
+  </div>
+  <div style="margin-top:8px">
+    <strong>Logs / Saída:</strong>
+    <pre id="out">Nenhum log ainda.</pre>
+  </div>
+  <div style="margin-top:6px" class="small">Sugestões geradas são propostas. Revise antes de aplicar.</div>
+<script src="popup.js"></script>
+</body>
+</html>

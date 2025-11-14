@@ -1,0 +1,1 @@
+Debug logs and notes. Use popup to read stored logs in chrome.storage.local under 'neutralizador_status' and 'changes'.

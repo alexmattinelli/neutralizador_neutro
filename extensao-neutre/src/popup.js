@@ -13,7 +13,8 @@ chrome.storage.local.get([SETTINGS_KEY], res=>{
 
 document.getElementById('toggle').addEventListener('click', ()=>{
   chrome.storage.local.get([SETTINGS_KEY], res=>{
-    const novo = !res[SETTINGS_KEY];
+    const atual = (res && res[SETTINGS_KEY] !== undefined) ? res[SETTINGS_KEY] : true;
+    const novo = !atual;
     chrome.storage.local.set({[SETTINGS_KEY]: novo}, ()=>{
       setStatusText(novo ? 'Ativo' : 'Desativado');
       // notify active tab
